@@ -5,9 +5,8 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 export default class GeneratorColor {
     static async generatorColor (ctx) {
-        ctx.body = 'text ----- generator'
         if (!configuration.apiKey) {
-            ctx.status = 500
+            ctx.status = 400
             ctx.body = json({
                 code: 0,
                 error: {
