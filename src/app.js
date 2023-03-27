@@ -2,6 +2,7 @@ import Koa from 'koa'
 import cors from '@koa/cors'
 import bodyParser from 'koa-bodyparser'
 import logger from './middle-ware/logger.js'
+import router from './routers.js'
 
 const app = new Koa()
 
@@ -9,11 +10,7 @@ app.use(cors())
 app.use(bodyParser())
 app.use(logger())
 
-app.use((ctx) => {
-    ctx.body = 'is koa'
-    console.log('ctx.body', ctx.body)
-    console.log('ctx.request', ctx.request)
-})
+app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(5764, () => {
     console.log('5764监听中')
