@@ -2,7 +2,8 @@ import { Configuration, OpenAIApi } from "openai";
 import json from 'koa-json'
 const configuration = new Configuration({
     // apiKey: process.env.OPENAI_API_KEY,
-    apiKey: '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',
+    // apiKey: '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',
+    // apiKey: '',
 });
 const openai = new OpenAIApi(configuration);
 export default class GeneratorColor {
@@ -29,15 +30,22 @@ export default class GeneratorColor {
             return;
         }
 
+        // const axiosConfig = isProd ? {} : config.axiosConfig
+        const axiosConfig = {
+            proxy: {
+                host: "localhost", port: 5555, protocol: "socks5"
+            }
+        }
         try {
             const completion = await openai.createCompletion({
                 model: "text-davinci-003",
                 prompt: generateColorAsk(color, colorType),
                 temperature: 0.6,
-            });
+            }, axiosConfig);
             ctx.status = 200
             ctx.body = { result: completion.data.choices[0].text }
         } catch (error) {
+            console.log('error:', error)
             if (error.response) {
                 console.error(error.response.status, error.response.data);
                 ctx.status = error.response.status
