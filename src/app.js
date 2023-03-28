@@ -12,6 +12,6 @@ app.use(logger())
 
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(5764, () => {
-    console.log('5764监听中')
+app.listen(5555, () => {
+    console.log('5555监听中')
 })
